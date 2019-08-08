@@ -5,6 +5,9 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 	
+	
+	// These are just the comments to test pushing to a new branch
+	
 	private static Connection conn;
 	public DatabaseConnector() {
 		String driver = "com.mysql.jdbc.Driver";
