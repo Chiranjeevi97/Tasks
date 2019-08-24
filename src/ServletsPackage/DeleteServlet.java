@@ -26,8 +26,7 @@ public class DeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String uname=request.getParameter("uname");
     
-		    DbConnection b = new DbConnection();
-            Connection conn = b.toConnect();
+		Connection conn = DbConnector.getInstance();
             try {
 			String query="delete from emp where uname=?" ;
 			PreparedStatement ps = conn.prepareStatement(query);

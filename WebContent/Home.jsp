@@ -8,7 +8,7 @@
 </head>
 <body>
 <%String username=(String)session.getAttribute("uname"); %>
-<h4 align="right">Welcome <%=username %></h4>
+<h2 >Welcome <%=username %></h2>
 <h1> hey</h1>
  <a href="View1">View Database </a>
 

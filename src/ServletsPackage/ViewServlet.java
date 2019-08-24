@@ -24,9 +24,23 @@ public class ViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
-		DbConnection b = new DbConnection();
-		Connection conn = b.toConnect();
+		//Connection conn = DbConnection.getInstance();
+		Connection conn = null;
+		String driver = "com.mysql.jdbc.Driver";
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		String url = "jdbc:mysql://localhost:3306/test?useSSL=false";
+		String username = "root";
+		String password = "root";
+		try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			System.out.println("Database Connection Unsuccessful. Throw your laptop out the window");
+		}
 		String query = "select * from emp";
 		PreparedStatement ps;
 		try {
@@ -45,7 +59,7 @@ public class ViewServlet extends HttpServlet {
 			request.setAttribute("us", users);
 			RequestDispatcher rd = request.getRequestDispatcher("view.jsp");
 			rd.forward(request, response);
-			ps.getConnection().close();
+			//ps.getConnection().close();
 		} catch (SQLException e) {
 		}
 

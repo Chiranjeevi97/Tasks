@@ -17,45 +17,34 @@ import javax.servlet.http.HttpServletResponse;
 //@WebServlet("/Signup1")
 public class SignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String fn= request.getParameter("fname");
-		String un= request.getParameter("uname");
-		String pass= request.getParameter("password");
-		
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String fn = request.getParameter("fname");
+		String un = request.getParameter("uname");
+		String pass = request.getParameter("password");
 
-		DbConnection b = new DbConnection();
-        Connection conn = b.toConnect();
+		Connection conn = DbConnector.getInstance();
 		try {
-			
-			String query= "insert into emp values(?,?,?)";
-			PreparedStatement ps= conn.prepareStatement(query);
+			String query = "insert into emp values(?,?,?)";
+			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setString(1, fn);
 			ps.setString(2, un);
 			ps.setString(3, pass);
-			int success= ps.executeUpdate();
-			if(success>0) {
+			int success = ps.executeUpdate();
+			if (success > 0) {
 				response.sendRedirect("Loginform.jsp");
-			}else {
-				
-			}
-			
-			ps.getConnection().close();
-		} catch (SQLException e) {
+			} else {
 
-			
-			
+			}
+			// ps.getConnection().close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-
 	}
-	
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
