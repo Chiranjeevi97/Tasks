@@ -1,10 +1,9 @@
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,37 +11,88 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/signup")
+
+@WebServlet("/signupsv") // Aim now is to take values from signup.jsp and store in database.
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		String fname = request.getParameter("fname");
-		String al = request.getParameter("al");
+		String lname = request.getParameter("lname");
 		String uname = request.getParameter("uname");
-		String pwd = request.getParameter("pwd");
-
-		Connection conn = DatabaseConnector.getConnection();
-
-		String query = "INSERT INTO emp VALUES(?, ?, ?, ?)";
-		PreparedStatement ps;
-		try {
-			ps = conn.prepareStatement(query);
-			ps.setString(1, fname);
-			ps.setString(2, al);
-			ps.setString(3, uname);
-			ps.setString(4, pwd);
-			int ans = ps.executeUpdate();
-			if (ans == 1)
-				response.sendRedirect("login.jsp");
-			else
-				response.sendRedirect("signup.jsp");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+		String passwd = request.getParameter("passwd");
+		String rpasswd = request.getParameter("rpasswd"); // got all values from signup.jsp
+		String accss = request.getParameter("accss");
+				 	
+		String urldb = "jdbc:mysql://localhost:3306/empdb";
+		String unamedb = "root";
+		String passwddb = "salman";
+		
+		if (fname.isEmpty() || lname.isEmpty() || uname.isEmpty() || passwd.isEmpty() || rpasswd.isEmpty() || accss.equals("--select--"))
+		{	
+			response.sendRedirect("signup.jsp?error1=Please fill all the provided fields.");
+						
 		}
+		else {
+			
+			try {
+				// load driver
+				String dbDriver = "com.mysql.jdbc.Driver"; 
+				Class.forName(dbDriver);
+				
+				// establish connection
+				Connection con = DriverManager.getConnection(urldb, unamedb, passwddb);
+				
+				// statement to check if username exists in db
+				
+				String query1 = "SELECT * FROM EMPLOYEE WHERE EMPUSERNAME = ? ";
+				PreparedStatement ps1 = con.prepareStatement(query1);
+				
+				ps1.setString(1, uname);
+				ResultSet rs1 = ps1.executeQuery();
+				
+				if (rs1.next()) {
+					response.sendRedirect("signup.jsp?error2=User name used. Please try other user name.");
+					con.close();
+				}
+				
+				if (passwd.equals(rpasswd)) {
+					
+					// prepare statement
+					String query = "INSERT INTO EMPLOYEE VALUES (?,?,?,?,?,?)";
+					PreparedStatement ps = con.prepareStatement(query);
+					
+					ps.setString(1, null);
+					ps.setString(2, fname);
+					ps.setString(3, lname);
+					ps.setString(4, uname);
+					ps.setString(5, passwd);
+					ps.setString(6, accss);
+					
+					ps.executeUpdate();
 
+					con.close();
+					
+					if (accss.equals("admin")) {
+						
+						response.sendRedirect("login.jsp");
+					}
+					
+					else {
+						response.sendRedirect("login.jsp");
+					}
+									
+				}
+				
+				if (!(passwd.equals(rpasswd))){
+					response.sendRedirect("signup.jsp?error=Passwords do not match. Please try again");
+					con.close();
+				}
+							
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
 	}
-
 }
