@@ -1,35 +1,33 @@
+package com.test;
+
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.test.User;
-@WebServlet("/login")
+import com.test.DatabaseConnector;
+//@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		
 		String uname = request.getParameter("username");
     	String pwd = request.getParameter("password");
     	
     	try {
     		Connection conn = DatabaseConnector.getConnection();
     		
-    		String query = "SELECT * FROM emp WHERE uname = ? AND pwd = ?";
+    		Properties prop = QueryProperties.getProp(); 
+    		
+       		String query = prop.getProperty("db.selectUser");
     		PreparedStatement ps = conn.prepareStatement(query);
     		ps.setString(1, uname);
     		ps.setString(2, pwd);
@@ -58,10 +56,15 @@ public class LoginServlet extends HttpServlet {
     			
     		}
     		else
-    			response.sendRedirect("login.jsp?error=Authentication Failed");
+    			response.sendRedirect("login.jsp?error=Incorrect Username or Password.");
     		
     	} catch(Exception e) {
     		e.printStackTrace();
+    		
+    		//System.err.println("Error message: " + e.getMessage());
+    		
+    		response.sendRedirect("login.jsp?error=DB Error.");
+    		
     	}
 	}
 
