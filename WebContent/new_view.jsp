@@ -12,10 +12,12 @@
 	
 	<% String al = request.getParameter("al"); %>
 	<% String id = request.getParameter("id"); %>
+	<% String email = request.getParameter("email"); %>
 	
 	<% String adfname = request.getParameter("adfname"); %>
 	<% String aduname = request.getParameter("aduname"); %>
 	<% String adid = request.getParameter("adid"); %>
+	<% String exuname = request.getParameter("exuname"); %>
 
 
 	<title> EDIT FORM </title>
@@ -25,6 +27,8 @@
 	<body>
 
 		<h2> welcome admin <%= adfname %> ! </h2>
+		
+		<h4> Edit details of <%= exuname %> </h4>
 	
 		<%if(error != null){ %>
 			<h3 style="color: red"> <%= error %> </h3>
@@ -41,6 +45,8 @@
 			<input type="hidden" name="adfname" value="<%= adfname %>">
 			
 			<input type="hidden" name="id" value="<%= id %>">
+			<input type="hidden" name="email" value="<%= email %>">
+			<input type="hidden" name="exuname" value="<%= exuname %>">
 			
 			
 			First Name <input type="text" value="${fname}" name="fname" placeholder="First Name">
@@ -49,7 +55,7 @@
 			Last Name <input type="text" value="${lname}" name="lname" placeholder="Last Name">	
 			<br>
 			<br>
-			User Name <input type="text" value="${uname}" name="uname" placeholder="User Name">
+			User Name <input type="text" value="${exuname}" name="uname" placeholder="User Name">
 			<br>
 			<br>
 			Access Level <select name="al">
@@ -66,3 +72,4 @@
 	</body>
 	
 </html>
+

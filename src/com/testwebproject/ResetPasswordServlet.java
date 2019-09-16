@@ -20,23 +20,26 @@ public class ResetPasswordServlet extends HttpServlet {
 		
 		// get password and re enter password fields and compare if they are same or are all the fields filled out 
 		
-		String password = request.getParameter("password");
+		String password = request.getParameter("password");   
 		String rpassword = request.getParameter("rpassword");
 		String email = request.getParameter("email");
-		
-		System.out.println("email : " + email);
 		
 		
 		if (password.isEmpty() || rpassword.isEmpty()) {
 			response.sendRedirect("reset_password.jsp?error=Please fill all the fields&email="+email);
 		}
+				
 		else {
 			
 			if (!(password.equals(rpassword))) {
 				response.sendRedirect("reset_password.jsp?error1=Passwords do not match please try again&email="+email);
 			}
 			
-			else {  // now if everything goes fine then you should change password in db (update) for that particular user, identified by his/her email which shall never change in any case.   
+			else if (password.length() < 8) {
+				response.sendRedirect("reset_password.jsp?error2=Password must be atleast 8 characters long&email="+email);
+			}
+			
+			else {  // now if everything goes fine then you should change password in db (update) for that particular user, identified by his/her email which shall never change in any case   
 				
 				try {
 				// load driver 
@@ -53,7 +56,7 @@ public class ResetPasswordServlet extends HttpServlet {
 				
 				// prepare statement
 				
-				// first get that user's all the details using his email, as we know that email is unique and cannot be changed at any cost and then later update his password only.
+				// first get that user's all the details using his email, as we know that email is unique and cannot be changed at any cost and then later update his password only
 				
 				String query = "SELECT * FROM EMPLOYEE WHERE EMPEMAIL = ?";
 				PreparedStatement ps = con.prepareStatement(query);
@@ -62,7 +65,7 @@ public class ResetPasswordServlet extends HttpServlet {
 				
 				ResultSet rs = ps.executeQuery();
 				
-				rs.next(); // no need of using if loop here 
+				rs.next();
 				
 				String id = rs.getString(1);
 				String fname = rs.getString(2);
@@ -91,6 +94,7 @@ public class ResetPasswordServlet extends HttpServlet {
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 			
 		}

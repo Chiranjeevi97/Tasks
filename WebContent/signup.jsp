@@ -6,7 +6,7 @@
 	<head>
 	<meta charset="ISO-8859-1">	<!-- I also tried "utf-8"/ but no use, i am not able to add favicon (.ico file) to my tab -->
 	<title>SIGN UP</title>
-		<link rel="shortcut icon" href="download_ac7_icon.ico?" type="image/x-icon" /> 
+		<link rel="shortcut icon" href="download_ac7_icon.ico?" type="image/x-icon" /> <!-- Try adding Geeks for geeks website example --> 
 	</head>
 	
 	<body>
@@ -17,6 +17,8 @@
 		<%String error1 = request.getParameter("error1"); %>
 		<%String error2 = request.getParameter("error2"); %>
 		<%String error3 = request.getParameter("error3"); %>
+		<%String error4 = request.getParameter("error4"); %>
+		<%String error5 = request.getParameter("error5"); %>
 		
 		<%if (error1 != null) {%>
 			<h4 style="color: red"> <%= error1 %></h4>
@@ -34,6 +36,14 @@
 			<h4 style="color: red"> <%= error3 %></h4>
 		<%} %>
 		
+		<%if (error4 != null) {%>
+		<h4 style="color: red"> <%= error4 %></h4>
+		<%} %>
+		
+		<%if (error5 != null) {%>
+		<h4 style="color: red"> <%= error5 %></h4>
+		<%} %>
+		
 		
 		<form action="signupsv" method="post">
 			First Name <input type="text" name="fname" placeholder="First Name"> 
@@ -42,7 +52,7 @@
 			Last Name <input type="text" name="lname" placeholder="Last Name">
 			<br>
 			<br>
-			UserName <input type="text" name="uname" placeholder="User Name"> 
+			User Name <input type="text" name="uname" placeholder="User Name"> 
 			<br>
 			<br>
 			Email <input type="text" name="email" placeholder="Email"> 
@@ -70,3 +80,4 @@
 	</body>
 	
 </html>
+

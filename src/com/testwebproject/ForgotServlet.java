@@ -20,14 +20,15 @@ public class ForgotServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String email = request.getParameter("email"); // once you email from forgot.jsp, make sure that the email exists in the db 
+		String email = request.getParameter("email").trim().toLowerCase();                            // once you email from forgot.jsp, make sure that the email exists in the db. Also, trim the leading/trailing white spaces in the email string entered by the user by invoking the trim method of String class
 		
 		if (email.isEmpty()) {
 			
 			response.sendRedirect("forgot.jsp?error=Please fill all the fields");
 		}
 		
-		else {
+		else if ((email.contains("@")) && (email.indexOf("@") >= 1))                     // Check here if the email has "@" and the correct placement of "@"
+		{                       
 			try {
 		// db connection essentials
 				String urldb = "jdbc:mysql://localhost:3306/empdb";
@@ -63,7 +64,10 @@ public class ForgotServlet extends HttpServlet {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
-	}		
+	}
+		else {
+			response.sendRedirect("forgot.jsp?error2=Invalid Email Address !");     // Actually not required but better to reject the invalid email on the first go itself. I mean, why do you want to connect to Database and check if the email exists in it, if the email is invalid 
+		}
 		
 	}
 

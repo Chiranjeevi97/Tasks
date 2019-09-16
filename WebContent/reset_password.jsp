@@ -11,6 +11,7 @@
 	
 	<% String error = request.getParameter("error"); %>
 	<% String error1 = request.getParameter("error1"); %>
+	<% String error2 = request.getParameter("error2"); %>
 	<% String email = request.getParameter("email"); %>
 	
 	<% if (error != null){%>
@@ -21,6 +22,13 @@
 		<h2 style="color: red"> <%= error1 %></h2>
 	
 	<%} %>
+	
+	<% if (error2 != null) {%>
+		<h2 style="color: red"> <%= error2 %></h2>
+	
+	<%} %>
+	
+	
 	
 	<form action="resetsv" method="post">
 		

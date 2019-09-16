@@ -11,11 +11,9 @@
 	<body>
 	
 		<h1> Hey there! Forgot password? We got you. </h1>
-		<br>
-		<br>
-		
 		<% String error = request.getParameter("error"); %>
 		<% String error1 = request.getParameter("error1"); %>
+		<% String error2 = request.getParameter("error2"); %>
 		
 		<% if (error != null) {%>
 			<h2 style="color: red"> <%= error %> </h2>
@@ -25,7 +23,12 @@
 			<h2 style="color: red"> <%= error1 %> </h2>
 		<%} %>
 		
+		<% if (error2 != null) {%>
+			<h2 style="color: red"> <%= error2 %> </h2>
+		<%} %>
+		
 		<form action="forgotsv" method="post">
+
 			Enter your email address <input type="text" name="email">
 			<br>
 			<br>
@@ -33,9 +36,7 @@
 			<br>
 			<br>
 		</form>
-		<br>
-		<br>
-		
+		<br>		
 		<a href="login.jsp"> Login </a>
 		
 	</body>

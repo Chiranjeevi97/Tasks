@@ -20,11 +20,11 @@ public class EditServlet extends HttpServlet {
  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String uname = request.getParameter("uname");
+		String exuname = request.getParameter("exuname");
 		String id = request.getParameter("id");
 		String al = request.getParameter("al");
-		// String email = request.getParameter("email");   // In no case you shall edit email. 
 		
+		String email = request.getParameter("email");                         // In no case you shall edit email though. 
 		String adfname = request.getParameter("adfname"); 
 		String aduname = request.getParameter("aduname");
 		String adid = request.getParameter("adid");
@@ -41,25 +41,21 @@ public class EditServlet extends HttpServlet {
 			
 			Connection con = DriverManager.getConnection(urldb, unamedb, passwddb);
 			
-			if (al.equals("user")) { // if user then edit details
-						
-				String query = "SELECT * FROM EMPLOYEE WHERE EMPUSERNAME = ?";
-				PreparedStatement ps = con.prepareStatement(query);
-				ps.setString(1, uname);
+			if (al.equals("user")) {                                          // if user then edit his/her details
 				
-				ResultSet rs = ps.executeQuery();
+				String queryup = "SELECT * FROM EMPLOYEE WHERE EMPID = ?";
+				PreparedStatement psup = con.prepareStatement(queryup);
+				psup.setString(1, id);
+				
+				psup.executeQuery();
 							
-				rs.next();
-				String fname = rs.getString(2);
-				String lname = rs.getString(3);
-	
-				response.sendRedirect("new_view.jsp?uname="+uname+"&fname="+fname+"&lname="+lname+"&id="+id+"&al="+al+"&aduname="+aduname+"&adid="+adid+"&adfname="+adfname); // do not send email as you are not intending to change it 
-
+				response.sendRedirect("new_view.jsp?al="+al+"&id="+id+"&email="+email+"&aduname="+aduname+"&adid="+adid+"&adfname="+adfname+"&exuname="+exuname); 
+				
 				con.close();
 				
 			}
 			
-			else if(al.equals("admin")){ // if admin then redirect to view.jsp saying error that you cannot details of admin 
+			else if(al.equals("admin")){                                      // if admin then redirect to view.jsp saying error that you cannot details of admin 
 				
 				if (!(adid.equals(id))){
 
@@ -92,12 +88,14 @@ public class EditServlet extends HttpServlet {
 						
 						ps3.executeQuery();
 									
-						response.sendRedirect("new_view.jsp?al="+al+"&id="+id+"&aduname="+aduname+"&adid="+adid+"&adfname="+adfname); // how you retrieved password for that particular user and did not send password through redirect, do the same for email as well
+						response.sendRedirect("new_view.jsp?al="+al+"&id="+id+"&email="+email+"&aduname="+aduname+"&adid="+adid+"&adfname="+adfname+"&exuname="+exuname); 
 				}
 			}
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
+	
 }

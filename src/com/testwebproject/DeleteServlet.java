@@ -18,7 +18,7 @@ public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String uname = request.getParameter("uname");
+		String uname = request.getParameter("uname");  // need not use trim() method here as the values are being accessed from url that in turn are from the database. The values in the db are proper (no leading/trailing spaces).
 		String id = request.getParameter("id");
 		String al = request.getParameter("al");
 		
@@ -26,6 +26,9 @@ public class DeleteServlet extends HttpServlet {
 		String aduname = request.getParameter("aduname");
 		String adid = request.getParameter("adid");
 		
+		/*  Provide a prompt before deleting a user or yourself (admin). 
+		 * Try without JavaScript 
+		 */	
 		
 		try {	
 			// load driver

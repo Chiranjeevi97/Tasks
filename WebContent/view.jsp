@@ -45,8 +45,8 @@
 						<td> <%= rs.getString(5) %> </td>
 						<td> <%= rs.getString(6) %> </td>
 						<td> <%= rs.getString(7) %> </td>	
-						<td> <a href="deletesv?uname=<%= rs.getString(4) %>&email=<%= rs.getString(7) %>&al=<%= rs.getString(6) %>&aduname=<%=aduname %>&adfname=<%=adfname %>&adid=<%=adid %>&id=<%=rs.getString(1) %>"> delete </a> </td> 
-						<td> <a href="editsv?uname=<%= rs.getString(4) %>&email=<%= rs.getString(7) %>&al=<%= rs.getString(6) %>&aduname=<%=aduname %>&adfname=<%=adfname %>&adid=<%=adid %>&id=<%=rs.getString(1) %>"> edit </a> </td>				
+						<td> <a href="deletesv?exuname=<%= rs.getString(4) %>&email=<%= rs.getString(7) %>&al=<%= rs.getString(6) %>&aduname=<%=aduname %>&adfname=<%=adfname %>&adid=<%=adid %>&id=<%=rs.getString(1) %>"> delete </a> </td> 
+						<td> <a href="editsv?exuname=<%= rs.getString(4) %>&email=<%= rs.getString(7) %>&al=<%= rs.getString(6) %>&aduname=<%=aduname %>&adfname=<%=adfname %>&adid=<%=adid %>&id=<%=rs.getString(1) %>"> edit </a> </td>				
 					</tr>		
 		<%} %>
 			
